@@ -281,6 +281,8 @@ fabric.properties
 # https://plugins.jetbrains.com/plugin/12206-codestream
 .idea/codestream.xml
 
+# Nao sei o que diabos é isso
+.idea/vcs.xml
 ### Python ###
 # Byte-compiled / optimized / DLL files
 
