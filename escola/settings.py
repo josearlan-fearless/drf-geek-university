@@ -9,7 +9,8 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 
-Token: 5a390f1d8d1974a50f480da9ecc7d44387cbea69
+Token jose: 5a390f1d8d1974a50f480da9ecc7d44387cbea69
+Token felicity: e96d404ffe092fd497ddd06fda65566e48c613e1
 
 """
 import os.path
