@@ -1,6 +1,9 @@
 from rest_framework import serializers
 from .models import Curso, Avaliacao
 
+import numpy as np
+from decimal import Decimal
+
 
 class AvaliacaoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,7 +23,12 @@ class AvaliacaoSerializer(serializers.ModelSerializer):
         )
 
     def validate_avaliacao(self, valor):
-        if valor in range(1, 6):
+        lista = []
+        for i in np.arange(1, 5.1, 0.1):
+            aux = Decimal(format(i, ".1f"))
+            lista.append(aux)
+
+        if valor in lista:
             return valor
         raise serializers.ValidationError('A Avaliação precisa ser um inteiro entre 1 e 5')
 
