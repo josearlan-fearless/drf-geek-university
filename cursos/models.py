@@ -1,4 +1,7 @@
 from django.db import models
+from decimal import Decimal
+from django.db.models import Avg
+from django.db.models import signals
 
 
 class Base(models.Model):
@@ -13,6 +16,7 @@ class Base(models.Model):
 class Curso(Base):
     titulo = models.CharField(max_length=255)
     url = models.URLField(unique=True)
+    media = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Curso'
@@ -21,6 +25,13 @@ class Curso(Base):
 
     def __str__(self):
         return self.titulo
+
+    def media_avaliacoes(self):
+        aux_media = self.avaliacoes.aggregate(Avg('avaliacao')).get('avaliacao__avg')
+
+        if aux_media is None:
+            self.media = Decimal(0)
+        self.media = Decimal(round(aux_media * 2) / 2)
 
 
 class Avaliacao(Base):
@@ -39,3 +50,9 @@ class Avaliacao(Base):
     def __str__(self):
         return f'{self.nome} avaliou o curso {self.curso} com nota {self.avaliacao}'
 
+
+def avaliacao_post_save(signal, instance, sender, **kwargs):
+    instance.curso.media_avaliacoes()
+
+
+signals.post_save.connect(avaliacao_post_save, sender=Avaliacao)
