@@ -1,3 +1,5 @@
+import decimal
+
 from django.db import models
 from decimal import Decimal
 from django.db.models import Avg
@@ -16,7 +18,7 @@ class Base(models.Model):
 class Curso(Base):
     titulo = models.CharField(max_length=255)
     url = models.URLField(unique=True)
-    media = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True)
+    media = models.FloatField(blank=True, default=0.0)
 
     class Meta:
         verbose_name = 'Curso'
@@ -28,10 +30,11 @@ class Curso(Base):
 
     def media_avaliacoes(self):
         aux_media = self.avaliacoes.aggregate(Avg('avaliacao')).get('avaliacao__avg')
-
         if aux_media is None:
-            self.media = Decimal(0)
-        self.media = Decimal(round(aux_media * 2) / 2)
+            self.media = 0
+        aux_media = round(aux_media * 2) / 2
+        self.media = aux_media
+        self.save()
 
 
 class Avaliacao(Base):
