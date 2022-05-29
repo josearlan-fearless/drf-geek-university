@@ -5,6 +5,7 @@ Django==3.2.13
 django-filter==21.1
 djangorestframework==3.13.1
 idna==3.3
+jsonpath==0.82
 Markdown==3.3.7
 numpy==1.22.4
 pytz==2022.1
